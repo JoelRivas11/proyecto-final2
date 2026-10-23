@@ -1,0 +1,248 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro de Preguntas</title>
+
+<style>
+.volver {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background: #16805c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+
+
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #eef5f1;
+            color: #222;
+        }
+
+        header {
+            background: #0b3d2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .contador {
+            background: white;
+            width: 300px;
+            margin: 25px auto;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px #bbb;
+        }
+
+        .contador h2 {
+            color: #0b3d2e;
+        }
+
+        #visitas {
+            font-size: 35px;
+            font-weight: bold;
+            color: #16805c;
+        }
+
+        .foro {
+            width: 80%;
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px #bbb;
+        }
+
+        .foro h2 {
+            color: #0b3d2e;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #16805c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0b3d2e;
+        }
+
+        .pregunta {
+            background: #eef5f1;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .pregunta h3 {
+            margin-top: 0;
+            color: #0b3d2e;
+        }
+
+        footer {
+            text-align: center;
+            background: #0b3d2e;
+            color: white;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            .foro {
+                width: 90%;
+                padding: 18px;
+            }
+
+            .contador {
+                width: 80%;
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>💬 Foro de Preguntas</h1>
+        <p>Comparte tus preguntas y opiniones</p>
+    </header>
+
+    <div class="contador">
+        <h2>👁️ Visitas</h2>
+        <div id="visitas">0</div>
+        <p>Personas que han visitado esta página</p>
+    </div>
+
+    <div class="foro">
+
+        <h2>❓ Haz una pregunta</h2>
+
+        <input type="text" id="nombre" placeholder="Escribe tu nombre">
+
+        <textarea id="preguntaTexto" placeholder="Escribe tu pregunta..."></textarea>
+
+        <button onclick="publicarPregunta()">Publicar pregunta</button>
+
+        <div id="listaPreguntas"></div>
+
+    </div>
+
+    <footer>
+        <p>Foro de preguntas © 2026</p>
+    </footer>
+
+    <script>
+
+        // CONTADOR DE VISITAS
+
+        let visitas = localStorage.getItem("visitas");
+
+        if (visitas === null) {
+            visitas = 0;
+        }
+
+        visitas++;
+
+        localStorage.setItem("visitas", visitas);
+
+        document.getElementById("visitas").innerText = visitas;
+
+
+        // FORO DE PREGUNTAS
+
+        let preguntas = JSON.parse(localStorage.getItem("preguntas")) || [];
+
+        function mostrarPreguntas() {
+
+            let lista = document.getElementById("listaPreguntas");
+
+            lista.innerHTML = "";
+
+            preguntas.forEach(function(pregunta) {
+
+                lista.innerHTML += `
+                    <div class="pregunta">
+                        <h3>👤 ${pregunta.nombre}</h3>
+                        <p>${pregunta.texto}</p>
+                    </div>
+                `;
+
+            });
+        }
+
+
+        function publicarPregunta() {
+
+            let nombre = document.getElementById("nombre").value;
+            let texto = document.getElementById("preguntaTexto").value;
+
+            if (nombre === "" || texto === "") {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            preguntas.push({
+                nombre: nombre,
+                texto: texto
+            });
+
+            localStorage.setItem("preguntas", JSON.stringify(preguntas));
+
+            document.getElementById("nombre").value = "";
+            document.getElementById("preguntaTexto").value = "";
+
+            mostrarPreguntas();
+        }
+
+        mostrarPreguntas();
+
+    </script>
+
+<a href="indexxxx.html" class="volver">
+        ← Volver al inicio
+    </a>
+
+</body>
+</html>
